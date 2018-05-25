@@ -1,0 +1,67 @@
+*{
+	padding: 0;
+	margin: 0; 
+}
+
+#canvas {
+	width: 850px;
+	height: 850px;
+	position: absolute;
+	z-index: 40;
+
+}
+
+#placeCr{
+	position: absolute;
+	width: 350px;
+	height: 350px;
+	background: #8F8F8F;
+	box-sizing: border-box;
+	z-index: 100;
+	position: absolute;
+	margin-top: 250px;
+	margin-left: 110px;
+	display: none;
+}
+
+#field_1{
+	margin-left: 35px;
+	margin-top: 50px;
+	outline: none;
+	width: 280px;
+	height: 30px;
+	text-indent: 5px;
+}
+
+#field_2{
+	margin-left: 35px;
+	margin-top: 20px;
+	outline: none;
+	width: 280px;
+	height: 30px;
+	text-indent: 5px;
+}
+
+#createGame{
+	font-family: Arial;
+	font-size: 35px;
+	margin-top: 5px;
+	margin-left: 70px;
+	position: absolute;
+}
+
+#button_1{
+	width: 100px;
+	height: 30px;
+	outline: none;
+	margin-left: 35px;
+	margin-top: 30px;
+}
+
+#button_2{
+	width: 100px;
+	height: 30px;
+	outline: none;
+	margin-left: 80px;
+	margin-top: 30px;
+}
