@@ -13,9 +13,11 @@ app.set('port', 8080);
 app.use('/static', express.static(__dirname + '/static'));
 
 var connection = mysql.createPool({
-  host : 'localhost',
-  user : 'root',
-  database : 'coordbase'
+  host : 'be5q9ckhe-mysql.services.clever-cloud.com',
+  user : 'ueesnshdnz2x5mxg',
+  database : 'be5q9ckhe',
+  post : '3306',
+  password : '8I1e6xtecvq9osbKtZg'
 });
 
 var players = {};
@@ -51,8 +53,7 @@ io.on('connection', function(socket) {
     });
 
     socket.on('readPlaceCoords', function(){
-        connection.query("SELECT * FROM `coordbase`.`coordsgame`", function(err, result){
-            console.log(result);
+        connection.query("SELECT * FROM `be5q9ckhe`.`coordsgame`", function(err, result){
             io.sockets.emit('writePlaceCoordsToArray', result);
         });
     });
@@ -74,14 +75,14 @@ io.on('connection', function(socket) {
     });
 
     socket.on('writePlaceCoords', function(crdsX, crdsY, link){
-        connection.query("INSERT INTO `coordbase`.`coordsgame` (`x`, `y`, `link`) VALUES ('" + crdsX + "', '" + crdsY + "', '" + link + "')", function(err, result){});
+        connection.query("INSERT INTO `be5q9ckhe`.`coordsgame` (`x`, `y`, `link`) VALUES ('" + crdsX + "', '" + crdsY + "', '" + link + "')", function(err, result){});
     });
 
     socket.on('disconnect', function() {
         console.log('Client ' + socket.id + ' disconnected');
         if(players[socket.id]){
-            connection.query("UPDATE  `coordbase`.`coordtable` SET  `coordY` = '" + players[socket.id].y + "' WHERE  `coordtable`.`id` =  '" + players[socket.id].iddb + "'" , function(err, result){});
-            connection.query("UPDATE  `coordbase`.`coordtable` SET  `coordX` = '" + players[socket.id].x + "' WHERE  `coordtable`.`id` =  '" + players[socket.id].iddb + "'" , function(err, result){});
+            connection.query("UPDATE  `be5q9ckhe`.`coordtable` SET  `coordY` = '" + players[socket.id].y + "' WHERE  `coordtable`.`id` =  '" + players[socket.id].iddb + "'" , function(err, result){});
+            connection.query("UPDATE  `be5q9ckhe`.`coordtable` SET  `coordX` = '" + players[socket.id].x + "' WHERE  `coordtable`.`id` =  '" + players[socket.id].iddb + "'" , function(err, result){});
         }
         players[socket.id] = undefined;
         delete players[socket.id];
