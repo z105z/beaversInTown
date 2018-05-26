@@ -10,7 +10,29 @@ var socket = io();
 var coordinates = {
 	canvasClickCoordinates: {},
 	mapCenterCoordinates: {},
-	mapPlaceCoordinates: []
+	mapPlaceCoordinates: [],
+	convertCoordinates : {
+		toPixels : function(mode, center, object, displaySize){
+			switch(mode){
+				case 'x':
+					return displaySize * (object - (center.x - numbrX)) / ((center.x + numbrX) - (center.x - numbrX));
+				break;
+				case 'y':
+					return displaySize * (object - (center.y + numbrY)) / ((center.x + numbrY) - (center.x - numbrY)) * -1;
+				break;
+			}
+		},
+		toDegrees : function(mode, center, object, displaySize){
+			switch(mode){
+				case 'x': 
+					return (center[1] - numbrX) + (((center[1] + numbrX) - (center[1] - numbrX)) * object.x) / displaySize;
+				break;
+				case 'y':
+					return (center[0] + numbrY) - (((center[0] + numbrY) - (center[0] - numbrY)) * object.y) / displaySize;
+				break;
+			}
+		}
+	}
 }
 
 var canvas, context, img;
@@ -66,7 +88,7 @@ var socketFuncs = {
 		}
 	},
 	updateState: function(players) {
-		context.clearRect(0, 0, 850, 850);
+		context.clearRect(0, 0, canvas.width, canvas.height);
 		context.fillStyle = 'green';
 		for (var id in players) {
 		    var player = players[id];
@@ -75,16 +97,18 @@ var socketFuncs = {
 			    coordinates.mapCenterCoordinates.y = player.y;
 			    map.setCenter([coordinates.mapCenterCoordinates.y, coordinates.mapCenterCoordinates.x]);
 			}
-		    player.x = (850 * ((player.x) - (coordinates.mapCenterCoordinates.x - 0.01825))) / ((coordinates.mapCenterCoordinates.x + 0.01825) - (coordinates.mapCenterCoordinates.x - 0.01825));
-			player.y = (850 * ((player.y) - (coordinates.mapCenterCoordinates.y + 0.01095))) / ((coordinates.mapCenterCoordinates.x + 0.01095) - (coordinates.mapCenterCoordinates.x - 0.01095)) * -1;
+		    player.x = coordinates.convertCoordinates.toPixels('x',coordinates.mapCenterCoordinates, player.x, canvas.width); //(850 * ((player.x) - (coordinates.mapCenterCoordinates.x - 0.01825))) / ((coordinates.mapCenterCoordinates.x + 0.01825) - (coordinates.mapCenterCoordinates.x - 0.01825));
+			player.y = coordinates.convertCoordinates.toPixels('y',coordinates.mapCenterCoordinates, player.y, canvas.height);//(850 * ((player.y) - (coordinates.mapCenterCoordinates.y + 0.01095))) / ((coordinates.mapCenterCoordinates.x + 0.01095) - (coordinates.mapCenterCoordinates.x - 0.01095)) * -1;
+			console.log(player);
+			console.log(map.getCenter());
 			context.drawImage(img, player.x, player.y, 100, 125);
 		    convertion(0, map.getCenter());
 		} 
 		context.fillStyle = 'red';
 	    for(var i = 0;i < totalColPlace;i++){
-		    if(coordinates.mapPlaceCoordinates[i].x > coordinates.mapCenterCoordinates.x - 0.01825&&coordinates.mapPlaceCoordinates[i].x < coordinates.mapCenterCoordinates.x + 0.01825&&coordinates.mapPlaceCoordinates[i].y < coordinates.mapCenterCoordinates.y + 0.01095&&coordinates.mapPlaceCoordinates[i].y > coordinates.mapCenterCoordinates.y - 0.01095){
-				coordinates.mapPlaceCoordinates[i].xPx = (850 * ((coordinates.mapPlaceCoordinates[i].x) - (coordinates.mapCenterCoordinates.x - 0.01825))) / ((coordinates.mapCenterCoordinates.x + 0.01825) - (coordinates.mapCenterCoordinates.x - 0.01825));
-				coordinates.mapPlaceCoordinates[i].yPx = (850 * ((coordinates.mapPlaceCoordinates[i].y) - (coordinates.mapCenterCoordinates.y + 0.01095))) / ((coordinates.mapCenterCoordinates.x + 0.01095) - (coordinates.mapCenterCoordinates.x - 0.01095))* -1;
+		    if(coordinates.mapPlaceCoordinates[i].x > coordinates.mapCenterCoordinates.x - numbrX&&coordinates.mapPlaceCoordinates[i].x < coordinates.mapCenterCoordinates.x + numbrX&&coordinates.mapPlaceCoordinates[i].y < coordinates.mapCenterCoordinates.y + numbrY&&coordinates.mapPlaceCoordinates[i].y > coordinates.mapCenterCoordinates.y - numbrY){
+				coordinates.mapPlaceCoordinates[i].xPx = coordinates.convertCoordinates.toPixels('x',coordinates.mapCenterCoordinates, coordinates.mapPlaceCoordinates[i].x, canvas.width)//(50 * ((coordinates.mapPlaceCoordinates[i].x) - (coordinates.mapCenterCoordinates.x - 0.01825))) / ((coordinates.mapCenterCoordinates.x + 0.01825) - (coordinates.mapCenterCoordinates.x - 0.01825));
+				coordinates.mapPlaceCoordinates[i].yPx = coordinates.convertCoordinates.toPixels('y',coordinates.mapCenterCoordinates, coordinates.mapPlaceCoordinates[i].y, canvas.height);//(850 * ((coordinates.mapPlaceCoordinates[i].y) - (coordinates.mapCenterCoordinates.y + 0.01095))) / ((coordinates.mapCenterCoordinates.x + 0.01095) - (coordinates.mapCenterCoordinates.x - 0.01095))* -1;
 			    context.beginPath();
 			    context.arc(coordinates.mapPlaceCoordinates[i].xPx, coordinates.mapPlaceCoordinates[i].yPx, 10, 0, 2 * Math.PI);
 			    context.fill();
@@ -121,8 +145,12 @@ function ymapsInit(){
 
 function canvasInit(){
 	canvas = document.getElementById('canvas');
-	canvas.width = 850;
-	canvas.height = 850;
+	canvas.width = screen.width;
+	canvas.height = screen.height;
+	document.getElementById('map').style.width = canvas.width + 'px';
+	document.getElementById('map').style.height = canvas.height + 'px';
+	numbrX = (0.01825 * (canvas.width / 2)) / 425;
+	numbrY = (0.01095 * (canvas.height / 2)) / 425;
 	context = canvas.getContext('2d');
 	img = new Image();
 	img.src = "static/images/Blue-Run-Left.gif";
@@ -135,7 +163,7 @@ function init(){
 	canvasInit();
 	addEvent(document, 'keydown', movementFuncs.up);
 	addEvent(document, 'keyup', movementFuncs.down);
-	addEvent(socket, 'writeUserIdEvent', socketFuncs.writeUserId)
+	addEvent(socket, 'writeUserIdEvent', socketFuncs.writeUserId);
 	addEvent(socket, 'updateStateEvent', socketFuncs.updateState);
 	addEvent(socket, 'writePlaceCoordsToArray', socketFuncs.writePlaceCoordsToArray);
 	addEvent(canvas, 'click', function(e){
@@ -183,8 +211,8 @@ function convertion(mode, center, object){
 	if(mode==1){
 		totalColPlace++;
 		coordinates.mapPlaceCoordinates.push({});
-		coordinates.mapPlaceCoordinates[totalColPlace - 1].x = (center[1] - 0.01825) + (((center[1] + 0.01825) - (center[1] - 0.01825)) * object.x) / 850,
-		coordinates.mapPlaceCoordinates[totalColPlace - 1].y = (center[0] + 0.01095) - (((center[0] + 0.01095) - (center[0] - 0.01095)) * object.y) / 850; 
+		coordinates.mapPlaceCoordinates[totalColPlace - 1].x = coordinates.convertCoordinates.toDegrees('x', center, object, canvas.width);//(center[1] - 0.01825) + (((center[1] + 0.01825) - (center[1] - 0.01825)) * object.x) / 850,
+		coordinates.mapPlaceCoordinates[totalColPlace - 1].y = coordinates.convertCoordinates.toDegrees('y', center, object, canvas.height);//(center[0] + 0.01095) - (((center[0] + 0.01095) - (center[0] - 0.01095)) * object.y) / 850; 
 		socket.emit('writePlaceCoords', coordinates.mapPlaceCoordinates[totalColPlace - 1].x, coordinates.mapPlaceCoordinates[totalColPlace - 1].y, gameLink);
 		socket.emit('readPlaceCoords');
 	}
