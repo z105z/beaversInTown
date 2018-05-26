@@ -4,11 +4,14 @@
 }
 
 #canvas {
-	width: 850px;
-	height: 850px;
+	width: 1920px;
+	height: 1080px;
 	position: absolute;
 	z-index: 40;
+}
 
+#map{
+	float: left;
 }
 
 #placeCr{
