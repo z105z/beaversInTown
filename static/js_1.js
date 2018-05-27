@@ -215,7 +215,6 @@ function convertion(mode, center, object){
 		coordinates.mapPlaceCoordinates[totalColPlace - 1].y = coordinates.convertCoordinates.toDegrees('y', center, object, canvas.height);//(center[0] + 0.01095) - (((center[0] + 0.01095) - (center[0] - 0.01095)) * object.y) / 850; 
 		socket.emit('writePlaceCoords', coordinates.mapPlaceCoordinates[totalColPlace - 1].x, coordinates.mapPlaceCoordinates[totalColPlace - 1].y, gameLink);
 		socket.emit('readPlaceCoords');
-		console.log(coordinates.mapPlaceCoordinates);
 	}
 }
 
