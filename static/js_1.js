@@ -105,7 +105,7 @@ var socketFuncs = {
 		    convertion(0, map.getCenter());
 		} 
 		context.fillStyle = 'red';
-	    for(var i = 0;i < totalColPlace;i++){
+	    for(var i = 0;i <= totalColPlace;i++){
 		    if(coordinates.mapPlaceCoordinates[i].x > coordinates.mapCenterCoordinates.x - numbrX&&coordinates.mapPlaceCoordinates[i].x < coordinates.mapCenterCoordinates.x + numbrX&&coordinates.mapPlaceCoordinates[i].y < coordinates.mapCenterCoordinates.y + numbrY&&coordinates.mapPlaceCoordinates[i].y > coordinates.mapCenterCoordinates.y - numbrY){
 				coordinates.mapPlaceCoordinates[i].xPx = coordinates.convertCoordinates.toPixels('x',coordinates.mapCenterCoordinates, coordinates.mapPlaceCoordinates[i].x, canvas.width)//(50 * ((coordinates.mapPlaceCoordinates[i].x) - (coordinates.mapCenterCoordinates.x - 0.01825))) / ((coordinates.mapCenterCoordinates.x + 0.01825) - (coordinates.mapCenterCoordinates.x - 0.01825));
 				coordinates.mapPlaceCoordinates[i].yPx = coordinates.convertCoordinates.toPixels('y',coordinates.mapCenterCoordinates, coordinates.mapPlaceCoordinates[i].y, canvas.height);//(850 * ((coordinates.mapPlaceCoordinates[i].y) - (coordinates.mapCenterCoordinates.y + 0.01095))) / ((coordinates.mapCenterCoordinates.x + 0.01095) - (coordinates.mapCenterCoordinates.x - 0.01095))* -1;
