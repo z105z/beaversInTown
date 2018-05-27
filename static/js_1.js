@@ -137,7 +137,7 @@ function addEvent(object, eventName, functionName){
 function ymapsInit(){
 	map = new ymaps.Map('map', {
 		center: [53.1446,29.2225],
-		zoom: 18,
+		zoom: 15,
 		controls: [],
 		behaviors:[]
 	});
