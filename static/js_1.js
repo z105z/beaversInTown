@@ -99,7 +99,7 @@ var socketFuncs = {
 			}
 		    player.x = coordinates.convertCoordinates.toPixels('x',coordinates.mapCenterCoordinates, player.x, canvas.width); //(850 * ((player.x) - (coordinates.mapCenterCoordinates.x - 0.01825))) / ((coordinates.mapCenterCoordinates.x + 0.01825) - (coordinates.mapCenterCoordinates.x - 0.01825));
 			player.y = coordinates.convertCoordinates.toPixels('y',coordinates.mapCenterCoordinates, player.y, canvas.height);//(850 * ((player.y) - (coordinates.mapCenterCoordinates.y + 0.01095))) / ((coordinates.mapCenterCoordinates.x + 0.01095) - (coordinates.mapCenterCoordinates.x - 0.01095)) * -1;
-			console.log(mapPlaceCoordinates);
+			console.log(coordinates.mapPlaceCoordinates);
 			context.drawImage(img, player.x, player.y, 100, 125);
 		    convertion(0, map.getCenter());
 		} 
