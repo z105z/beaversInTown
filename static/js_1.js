@@ -80,6 +80,32 @@ var movementFuncs = {
 	}
 }
 
+function convertion(mode, center, object){
+	var PROPORTIONS  = ((center[1] + 0.01825) - (center[1] - 0.01825)) / 850;
+	if(mode==0){
+		for(var i = 0;i < totalColPlace;i++){
+			if(center[1] > coordinates.mapPlaceCoordinates[i].x - 0.001&& center[1] < coordinates.mapPlaceCoordinates[i].x + 0.001&& center[0] > coordinates.mapPlaceCoordinates[i].y - 0.001&& center[0] < coordinates.mapPlaceCoordinates[i].y + 0.001){
+				var tot = i;
+				var link = coordinates.mapPlaceCoordinates[tot].link;
+				document.location.href = link;
+			}
+			else{
+				
+			}
+		}
+	}
+
+	if(mode==1){
+		totalColPlace++;
+		coordinates.mapPlaceCoordinates.push({});
+		coordinates.mapPlaceCoordinates[totalColPlace - 1].x = coordinates.convertCoordinates.toDegrees('x', center, object, canvas.width);//(center[1] - 0.01825) + (((center[1] + 0.01825) - (center[1] - 0.01825)) * object.x) / 850,
+		coordinates.mapPlaceCoordinates[totalColPlace - 1].y = coordinates.convertCoordinates.toDegrees('y', center, object, canvas.height);//(center[0] + 0.01095) - (((center[0] + 0.01095) - (center[0] - 0.01095)) * object.y) / 850; 
+		socket.emit('writePlaceCoords', coordinates.mapPlaceCoordinates[totalColPlace - 1].x, coordinates.mapPlaceCoordinates[totalColPlace - 1].y, gameLink);
+		socket.emit('readPlaceCoords');
+		console.log(coordinates.mapPlaceCoordinates);
+	}
+}
+
 var socketFuncs = {
 	writeUserId: function(socketId){
 		if(!userId){
@@ -190,32 +216,6 @@ function init(){
 	setInterval(function() {
 	  socket.emit('movement', movement);
 	}, 1000 / 60);
-}
-
-function convertion(mode, center, object){
-	var PROPORTIONS  = ((center[1] + 0.01825) - (center[1] - 0.01825)) / 850;
-	if(mode==0){
-		for(var i = 0;i < totalColPlace;i++){
-			if(center[1] > coordinates.mapPlaceCoordinates[i].x - 0.001&& center[1] < coordinates.mapPlaceCoordinates[i].x + 0.001&& center[0] > coordinates.mapPlaceCoordinates[i].y - 0.001&& center[0] < coordinates.mapPlaceCoordinates[i].y + 0.001){
-				var tot = i;
-				var link = coordinates.mapPlaceCoordinates[tot].link;
-				document.location.href = link;
-			}
-			else{
-				
-			}
-		}
-	}
-
-	if(mode==1){
-		totalColPlace++;
-		coordinates.mapPlaceCoordinates.push({});
-		coordinates.mapPlaceCoordinates[totalColPlace - 1].x = coordinates.convertCoordinates.toDegrees('x', center, object, canvas.width);//(center[1] - 0.01825) + (((center[1] + 0.01825) - (center[1] - 0.01825)) * object.x) / 850,
-		coordinates.mapPlaceCoordinates[totalColPlace - 1].y = coordinates.convertCoordinates.toDegrees('y', center, object, canvas.height);//(center[0] + 0.01095) - (((center[0] + 0.01095) - (center[0] - 0.01095)) * object.y) / 850; 
-		socket.emit('writePlaceCoords', coordinates.mapPlaceCoordinates[totalColPlace - 1].x, coordinates.mapPlaceCoordinates[totalColPlace - 1].y, gameLink);
-		socket.emit('readPlaceCoords');
-		console.log(coordinates.mapPlaceCoordinates);
-	}
 }
 
 ymaps.ready(init);
