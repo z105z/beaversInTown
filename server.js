@@ -128,7 +128,7 @@ io.on('connection', function(socket) {
 
 setInterval(function() {
     io.sockets.emit('updateStateEvent', players);
-}, 1000 / 30);
+}, 1000 / 60);
 
 server.listen(8080, function() {
     console.log('Starting server on port 5000');
