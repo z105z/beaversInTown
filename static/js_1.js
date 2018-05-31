@@ -186,7 +186,7 @@ function init(){
 	addEvent(socket, 'writePlaceCoordsToArray', socketFuncs.writePlaceCoordsToArray);
 	addEvent(canvas, 'click', function(e){
 		canvasFuncs.getCanvasClickCoordinates(e);
-		coordinates.checkForPlaceCoordinates(0, map.getCenter(), coordinates.canvasClickCoordinates);
+		coordinates.checkForPlaceCoordinates(map.getCenter(), coordinates.canvasClickCoordinates);
 		$("#placeCr").show();
 	});
 
