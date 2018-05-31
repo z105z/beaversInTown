@@ -119,10 +119,8 @@ var socketFuncs = {
 			    map.setCenter([coordinates.mapCenterCoordinates.y, coordinates.mapCenterCoordinates.x]);
 			}
 		    player.x = coordinates.convertCoordinates.toPixels('x',coordinates.mapCenterCoordinates, player.x, canvas.width); 
-			player.y = coordinates.convertCoordinates.toPixels('y',coordinates.mapCenterCoordinates, player.y, canvas.height);
-			console.log(player);
-			console.log(map.getCenter());
-			context.drawImage(img, player.x, player.y, 100, 125);
+		    player.y = coordinates.convertCoordinates.toPixels('y',coordinates.mapCenterCoordinates, player.y, canvas.height);
+		    context.drawImage(img, player.x, player.y, 100, 125);
 		    coordinates.checkForPlaceCoordinates(map.getCenter());
 		} 
 		context.fillStyle = 'red';
