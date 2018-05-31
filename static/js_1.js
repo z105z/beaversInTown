@@ -51,8 +51,8 @@ var coordinates = {
 		coordinates.mapPlaceCoordinates[totalColPlace - 1].x = coordinates.convertCoordinates.toDegrees('x', center, object, canvas.width);//(center[1] - 0.01825) + (((center[1] + 0.01825) - (center[1] - 0.01825)) * object.x) / 850,
 		coordinates.mapPlaceCoordinates[totalColPlace - 1].y = coordinates.convertCoordinates.toDegrees('y', center, object, canvas.height);//(center[0] + 0.01095) - (((center[0] + 0.01095) - (center[0] - 0.01095)) * object.y) / 850; 
 		socket.emit('writePlaceCoords', coordinates.mapPlaceCoordinates[totalColPlace - 1].x, coordinates.mapPlaceCoordinates[totalColPlace - 1].y, gameLink);
-		socket.emit('readPlaceCoords');
-		console.log(coordinates.mapPlaceCoordinates.length);
+		setTimeout(function(){socket.emit('readPlaceCoords')}, 1000);
+		console.log(coordinates.mapPlaceCoordinates);
 	}
 }
 
