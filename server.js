@@ -102,7 +102,7 @@ io.on('connection', function(socket) {
             if(result==0){
                 connection.query("SELECT id FROM coordtable WHERE login = '" + login + "'", function(err, result){
                     if(result==0){
-                        connection.query("INSERT INTO coordtable (`nickname`, `login`, `password`, `coordX`, `coordY`) VALUES ('" + nick + "', '" + login + "', '" + password + "', '29.2225', '53.1446')", function(err, result){
+                        connection.query("INSERT INTO coordtable (`nickname`, `login`, `password`, `coordX`, `coordY`, `status`) VALUES ('" + nick + "', '" + login + "', '" + password + "', '29.2225', '53.1446', 'offline')", function(err, result){
                             console.log("Регистрация прошла успешно");
                         });
                     }else{
