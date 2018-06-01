@@ -1,0 +1,111 @@
+*{
+	padding: 0;
+	margin: 0; 
+}
+
+#canvas {
+	width: 1920px;
+	height: 1080px;
+	position: absolute;
+	z-index: 40;
+	display: none;
+}
+
+#map{
+	float: left;
+}
+
+#placeCr{
+	position: absolute;
+	width: 350px;
+	height: 350px;
+	background: #8F8F8F;
+	box-sizing: border-box;
+	z-index: 100;
+	position: absolute;
+	margin-top: 250px;
+	margin-left: 110px;
+	display: none;
+}
+
+#field_1{
+	margin-left: 35px;
+	margin-top: 50px;
+	outline: none;
+	width: 280px;
+	height: 30px;
+	text-indent: 5px;
+}
+
+#field_2{
+	margin-left: 35px;
+	margin-top: 20px;
+	outline: none;
+	width: 280px;
+	height: 30px;
+	text-indent: 5px;
+}
+
+#createGame{
+	font-family: Arial;
+	font-size: 35px;
+	margin-top: 5px;
+	margin-left: 70px;
+	position: absolute;
+}
+
+#button_1{
+	width: 100px;
+	height: 30px;
+	outline: none;
+	margin-left: 35px;
+	margin-top: 30px;
+}
+
+#button_2{
+	width: 100px;
+	height: 30px;
+	outline: none;
+	margin-left: 80px;
+	margin-top: 30px;
+}
+
+#mainRegistrationMenu{
+	width: 400px;
+	height: 500px;
+	background: #31F51D;
+	float: left;
+}
+
+#mainAuthorizationMenu{
+	width: 400px;
+	height: 500px;
+	background: #EB1010;
+	margin-left: 400px;
+}
+
+#mainPanel{
+    width: 800px;
+    height: 500px;
+	margin-left: calc(50% - 800px / 2);
+	margin-top: 200px;
+}
+
+.registrationFields{
+	width: 300px;
+	height: 40px;
+	margin-left: calc(50% - 300px / 2);
+	margin-top: 20px;
+}
+
+#span_1{
+	font-size: 25px;
+	font-family: Arial;
+	margin-left: calc(50% - 200px / 2);
+}
+
+#span_2{
+	font-size: 25px;
+	font-family: Arial;
+	margin-left: calc(50% - 200px / 2);
+}
