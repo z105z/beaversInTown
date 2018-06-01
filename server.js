@@ -13,9 +13,11 @@ app.set('port', 8080);
 app.use('/static', express.static(__dirname + '/static'));
 
 var connection = mysql.createPool({
-  host : 'localhost',
-  user : 'root',
-  database : 'coordbase'
+  host : 'be5q9ckhe-mysql.services.clever-cloud.com',
+  user : 'ueesnshdnz2x5mxg',
+  database : 'be5q9ckhe',
+  port : '3306',
+  password : '8I1e6xtecvq9osbKtZg'
 });
 
 var players = {};
