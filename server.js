@@ -115,7 +115,7 @@ io.on('connection', function(socket) {
 
     socket.on('authorization', function(login, password){
          connection.query("SELECT * FROM coordtable WHERE login = '" + login + "' AND password = '" + password + "'", function(err, result){
-            if(result!=0&&result[0].status == 'offline'||result[0].status == ''){
+            if(result!=0&&result[0].status == 'offline'){
                 nickname = result[0].nickname;
                 x = result[0].coordX;
                 y = result[0].coordY;
