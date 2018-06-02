@@ -50,7 +50,6 @@ io.on('connection', function(socket) {
 
     socket.on('readPlaceCoords', function(){
         connection.query("SELECT * FROM `coordsgame`", function(err, result){
-            console.log(result);
             io.sockets.emit('writePlaceCoordsToArray', result);
         });
     });
@@ -72,7 +71,7 @@ io.on('connection', function(socket) {
     });
 
     socket.on('writePlaceCoords', function(crdsX, crdsY, link){
-        connection.query("INSERT INTO `coordbase`.`coordsgame` (`x`, `y`, `link`) VALUES ('" + crdsX + "', '" + crdsY + "', '" + link + "')", function(err, result){});
+        connection.query("INSERT INTO `coordsgame` (`x`, `y`, `link`) VALUES ('" + crdsX + "', '" + crdsY + "', '" + link + "')", function(err, result){});
     });
 
     socket.on('disconnect', function() {
