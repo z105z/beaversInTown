@@ -13,11 +13,9 @@ app.set('port', 8080);
 app.use('/static', express.static(__dirname + '/static'));
 
 var connection = mysql.createPool({
-  host : 'be5q9ckhe-mysql.services.clever-cloud.com',
-  user : 'ueesnshdnz2x5mxg',
-  database : 'be5q9ckhe',
-  password : '8I1e6xtecvq9osbKtZg',
-  port : '3306' 
+  host : 'localhost',
+  user : 'root',
+  database : 'coordbase'
 });
 
 var players = {};
@@ -57,6 +55,10 @@ io.on('connection', function(socket) {
             console.log(result);
             io.sockets.emit('writePlaceCoordsToArray', result);
         });
+    });
+
+    socket.on('sendMessToServer', function(messText, userId){
+        io.sockets.emit('sendMessToClients', messText, players[userId].nick);
     });
 
     socket.on('movement', function(data) {
