@@ -1,11 +1,15 @@
-var map, userId, clientId;
+var map, userId, clientId, totalColMess = 0;
 var totalColPlace = -1, gameLink;
+
+chatSpan = [];
 
 var socket = io();
 
 var regVar = {}
 
 var domVar = {}
+
+var chatVar = {}
 
 var crds = {
 	canvClickCrds: {},
@@ -105,7 +109,6 @@ var socketFuncs = {
 	writeUserId: function(socketId){
 		if(!userId){
 			userId = socketId;
-			console.log(userId);
 		}
 	},
 	updateState: function(players) {
@@ -120,6 +123,9 @@ var socketFuncs = {
 		    player.x = crds.convertCoordinates.toPixels('x',crds.mapCenterCrds, player.x, canvas.width); 
 		    player.y = crds.convertCoordinates.toPixels('y',crds.mapCenterCrds, player.y, canvas.height);
 		    ctx.drawImage(img, player.x, player.y, 100, 125);
+		    ctx.fillStyle = "#000000";
+		    ctx.fillText(player.nick, player.x, player.y);
+		    ctx.font = 'bold 15px sans-serif';
 		    crds.checkForPlaceCoordinates(map.getCenter());
 		} 
 		ctx.fillStyle = 'red';
@@ -146,6 +152,16 @@ var socketFuncs = {
 		if(!clientId){
 			clientId = socketId;
 		}
+	},
+	sendMessToClients: function(messText, nick){
+		domVar.chatField.value = '';
+		chatSpan[totalColMess] = document.createElement("span");
+		chatSpan[totalColMess].className = "chatFont";
+		chatSpan[totalColMess].innerHTML = "[" + nick + "] : " + messText;
+		chatSpan[totalColMess].style.position = 'absolute';
+		chatSpan[totalColMess].style.marginTop = 30 * totalColMess + "px";
+		textPanel.appendChild(chatSpan[totalColMess]);
+		totalColMess++;
 	}
 }
 
@@ -248,6 +264,16 @@ var registrFuncs = {
 	}
 }
 
+var chatFuncs = {
+	sendMess: function(){
+		chatVar.messText = domVar.chatField.value;
+		if(chatVar.messText){
+			socket.emit('sendMessToServer', chatVar.messText, userId);
+			console.log("Hello");
+		}
+	}
+}
+
 function addEvent(object, eventName, functionName){
 	object.addEventListener(eventName, functionName);
 }
@@ -264,6 +290,7 @@ function ymapsInit(){
 function canvasInit(){
 	$('#canvas').show();
 	$('#mainPanel').hide();
+	$('#chatPanel').show();
 	canvas = document.getElementById('canvas');
 	canvas.width = screen.width;
 	canvas.height = screen.height;
@@ -288,6 +315,9 @@ function DOMinit(){
 	domVar.pasAuthField = document.getElementById('pasA');
 	domVar.authSpan = document.getElementById('span_2');
 	domVar.regSpan = document.getElementById('span_1');
+	domVar.chatField = document.getElementById('chatField');
+	domVar.chatBut = document.getElementById('chatButton');
+	domVar.chatPanel = document.getElementById('chatPanel');
 }
 
 function registr(){
@@ -305,6 +335,8 @@ function init(){
 	socket.emit('readPlaceCoords');
 	ymapsInit();
 	canvasInit();
+	addEvent(domVar.chatBut, 'click', chatFuncs.sendMess);
+	addEvent(socket, 'sendMessToClients', socketFuncs.sendMessToClients);
 	addEvent(document, 'keydown', movementFuncs.up);
 	addEvent(document, 'keyup', movementFuncs.down);
 	addEvent(socket, 'updateStateEvent', socketFuncs.updateState);
