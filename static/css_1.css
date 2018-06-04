@@ -89,6 +89,7 @@
     height: 500px;
 	margin-left: calc(50% - 800px / 2);
 	margin-top: 200px;
+	position: absolute;
 }
 
 .registrationFields{
@@ -108,4 +109,42 @@
 	font-size: 25px;
 	font-family: Arial;
 	margin-left: calc(50% - 200px / 2);
+}
+
+#chatPanel{
+	width: 700px;
+	height: 400px;
+	z-index: 100;
+	background: #000000;
+	opacity: .9;
+	position: absolute;
+	display: none;
+}
+
+#textPanel{
+	width: 700px;
+	height: 345px;
+	z-index: 100;
+	position: absolute;
+	overflow-y: scroll;
+}
+
+.chatFont{
+	font-size: 30px;
+	color: #FFFFFF;
+}
+
+#chatField{
+	width: 550px;
+	height: 50px;
+	margin-top: 345px;
+	position: absolute;
+}
+
+#chatButton{
+	width: 150px;
+	height: 54px;
+	margin-left: 550px;
+	margin-top: 345px;
+	position: absolute;
 }
